@@ -17,14 +17,4 @@ public class MealTo {
         this.calories = calories;
         this.excess = excess;
     }
-
-    @Override
-    public String toString() {
-        return "MealTo{" +
-                "dateTime=" + dateTime +
-                ", description='" + description + '\'' +
-                ", calories=" + calories +
-                ", excess=" + excess +
-                '}';
-    }
 }
