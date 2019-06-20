@@ -28,26 +28,40 @@
 </head>
 
 <body>
-<table>
-  <thead>
+<form action="meals" method="post">
+  <input type="datetime-local" name="datetime" value="" placeholder="Введiть дату та час">
+  <input type="text" name="description" value="" placeholder="Введiть опис">
+  <input type="number" name="calories" value="" placeholder="Введiть калорii">
+  <button type="submit" name="operation" value="add">Добавить еду</button>
+
+  <table>
+    <thead>
     <tr>
+      <th hidden></th>
       <th>Дата/Время</th>
       <th>Описание</th>
       <th>Калории</th>
+      <th></th>
+      <th></th>
     </tr>
-  </thead>
-  <tbody>
-  <c:forEach items="${mealsList}" var="meal">
-    <tr class="${meal.excess == true ? "excess" : ""}">
-      <td>
-        <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" type="both" var="parsedDateTime" />
-        <fmt:formatDate value="${parsedDateTime}" pattern="dd.MM.yyyy HH:mm" />
-      </td>
-      <td>${meal.description}</td>
-      <td>${meal.calories}</td>
-    </tr>
-  </c:forEach>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <c:forEach items="${mealsList}" var="meal">
+      <tr class="${meal.excess == true ? "excess" : ""}">
+        <th hidden>${meal.id}</th>
+        <td>
+          <fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" type="both" var="parsedDateTime"/>
+          <fmt:formatDate value="${parsedDateTime}" pattern="dd.MM.yyyy HH:mm"/>
+        </td>
+        <td>${meal.description}</td>
+        <td>${meal.calories}</td>
+        <td>  <button type="submit" name="operation" value="edit-${meal.id}">Edit</button></td>
+        <td><a href="meals?operation=delete&id=${meal.id}">Delete</a></td>
+      </tr>
+    </c:forEach>
+    </tbody>
+  </table>
+</form>
+
 </body>
 </html>
