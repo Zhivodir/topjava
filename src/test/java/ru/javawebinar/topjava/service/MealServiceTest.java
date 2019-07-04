@@ -1,7 +1,10 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
@@ -12,6 +15,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
@@ -24,6 +29,39 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+    protected final Logger log = LoggerFactory.getLogger(getClass());
+
+    private static long startTest;
+    private static long endTest;
+    private static List<String> results;
+
+    @Rule
+    public final TestName testName = new TestName();
+
+    @Before
+    public void before() {
+        startTest = System.nanoTime();
+    }
+
+    @After
+    public void after() {
+        endTest = System.nanoTime();
+        log.info("Execution's time of {}: {}", testName.getMethodName() ,endTest - startTest);
+        results.add(String.format("%s - %d", testName.getMethodName(), endTest - startTest));
+    }
+
+    @BeforeClass
+    public static void beforeClass() {
+        results = new ArrayList();
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        System.out.println("");
+        for(String str:results) {
+            System.out.println(str);
+        }
+    }
 
     @Autowired
     private MealService service;
@@ -88,8 +126,7 @@ public class MealServiceTest {
 
     @Test
     public void getBetween() throws Exception {
-        assertMatch(service.getBetweenDates(
-                LocalDate.of(2015, Month.MAY, 30),
-                LocalDate.of(2015, Month.MAY, 30), USER_ID), MEAL3, MEAL2, MEAL1);
+        assertMatch(service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID),
+                MEAL3, MEAL2, MEAL1);
     }
 }
