@@ -26,4 +26,24 @@ public class Profiles {
             }
         }
     }
+
+    //  Get DB profile depending of DB driver in classpath
+    public static String getActiveDBConnectivityProfile() {
+        try {
+            Class.forName("org.springframework.data");
+            return DATAJPA;
+        } catch (ClassNotFoundException ex1) {
+            try {
+                Class.forName("org.hibernate");
+                return Profiles.JPA;
+            } catch (ClassNotFoundException ex2) {
+                try {
+                    Class.forName("org.hsqldb.jdbcDriver");
+                    return Profiles.JDBC;
+                } catch (ClassNotFoundException ex3) {
+                    throw new IllegalStateException("Could not find DB connectivity method");
+                }
+            }
+        }
+    }
 }
