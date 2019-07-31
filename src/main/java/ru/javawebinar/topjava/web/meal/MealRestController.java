@@ -59,13 +59,10 @@ public class MealRestController extends AbstractMealController {
 
     @GetMapping(value = "/filter")
     @ResponseStatus(HttpStatus.OK)
-//    public @ResponseBody ResponseEntity<List<MealTo>> filter(@RequestParam(name = "dateStart", required = false) LocalDateTime dateStart,
-    public List<MealTo> filter(@RequestParam(name = "dateStart", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateStart,
-                               @RequestParam(name = "dateEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateEnd,
-                               @RequestParam(name = "timeStart", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime timeStart,
-                               @RequestParam(name = "timeEnd", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime timeEnd) {
-
-//        return ResponseEntity.status(HttpStatus.OK).body(super.getBetween(dateStart.toLocalDate(), timeStart.toLocalTime(), dateEnd.toLocalDate(), timeEnd.toLocalTime()));
-        return super.getBetween(dateStart.toLocalDate(), timeStart.toLocalTime(), dateEnd.toLocalDate(), timeEnd.toLocalTime());
+    public List<MealTo> filter(@RequestParam(name = "dateStart", required = false) LocalDate dateStart,
+                               @RequestParam(name = "dateEnd", required = false) LocalDate dateEnd,
+                               @RequestParam(name = "timeStart", required = false) LocalTime timeStart,
+                               @RequestParam(name = "timeEnd", required = false) LocalTime timeEnd) {
+        return super.getBetween(dateStart, timeStart, dateEnd, timeEnd);
     }
 }

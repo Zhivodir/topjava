@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.javawebinar.topjava.TestUtil;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.AbstractControllerTest;
 import ru.javawebinar.topjava.web.SecurityUtil;
 import ru.javawebinar.topjava.web.json.JsonUtil;
@@ -78,10 +79,10 @@ class MealRestControllerTest extends AbstractControllerTest {
     void testFilter() throws Exception {
         mockMvc.perform(get(REST_URL + "filter")
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("dateStart", "2015-05-30T00:00:00")
-                .param("timeStart", "2015-05-30T07:00:00")
-                .param("dateEnd", "2015-05-31T00:00:00")
-                .param("timeEnd", "2015-05-30T11:00:00"))
+                .param("dateStart", "2015-05-30")
+                .param("timeStart", "07:00")
+                .param("dateEnd", "2015-05-31")
+                .param("timeEnd", "11:00"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
