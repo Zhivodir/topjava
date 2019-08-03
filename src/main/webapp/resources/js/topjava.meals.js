@@ -34,3 +34,18 @@ $(function () {
         }
     );
 });
+
+function filterMeals() {
+    $.ajax({
+        type: "GET",
+        url: context.ajaxUrl + "filter",
+        data: $("#mealFilter").serialize()
+    }).done(function (data) {
+        context.datatableApi.clear().rows.add(data).draw();
+    });
+}
+
+function resetFilter() {
+    $("#mealFilter").find(":input").val("");
+    filterMeals();
+}

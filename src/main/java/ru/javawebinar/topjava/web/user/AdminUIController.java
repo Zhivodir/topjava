@@ -37,4 +37,10 @@ public class AdminUIController extends AbstractUserController {
             super.create(user);
         }
     }
+
+    @PutMapping("changeState/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void changeState(@PathVariable("id") int id) {
+        super.service.changeState(id);
+    }
 }

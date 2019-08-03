@@ -21,4 +21,9 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @EntityGraph(attributePaths = {"meals"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT u FROM User u WHERE u.id=?1")
     User getWithMeals(int id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE User u SET u.enabled = CASE u.enabled WHEN true THEN false ELSE true END WHERE u.id=:id")
+    int changeState(@Param("id") int id);
 }

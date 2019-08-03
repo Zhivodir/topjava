@@ -40,3 +40,13 @@ $(function () {
         }
     );
 });
+
+function changeState(id) {
+    $.ajax({
+        type: "PUT",
+        url: context.ajaxUrl + "changeState/" + id
+    }).done(function (data) {
+        $("#" + id).toggleClass("disabled");
+        // context.datatableApi.clear().rows.add(data).draw();
+    });
+}
