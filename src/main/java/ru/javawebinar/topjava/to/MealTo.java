@@ -10,8 +10,11 @@ public class MealTo extends BaseTo {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime dateTime;
 
+    @NotBlank
     private String description;
 
+    @Positive
+    @Max(2000)
     private int calories;
 
     private boolean excess;
