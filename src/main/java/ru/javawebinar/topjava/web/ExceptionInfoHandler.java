@@ -55,11 +55,18 @@ public class ExceptionInfoHandler {
     //    https://stackoverflow.com/questions/538870/should-private-helper-methods-be-static-if-they-can-be-static
     private static ErrorInfo logAndGetErrorInfo(HttpServletRequest req, Exception e, boolean logException, ErrorType errorType) {
         Throwable rootCause = ValidationUtil.getRootCause(e);
+        String errorMessage = rootCause.toString();
+        if(errorMessage.contains("users_unique_email_idx")) {
+            errorMessage = "User with this email already exists";
+        }
+        if(errorMessage.contains("meals_unique_user_datetime_idx")) {
+            errorMessage = "This time is allready busy";
+        }
         if (logException) {
             log.error(errorType + " at request " + req.getRequestURL(), rootCause);
         } else {
             log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
         }
-        return new ErrorInfo(req.getRequestURL(), errorType, rootCause.toString());
+        return new ErrorInfo(req.getRequestURL(), errorType, errorMessage);
     }
 }

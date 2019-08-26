@@ -42,6 +42,9 @@ public class ProfileUIController extends AbstractUserController {
 
     @PostMapping("/register")
     public String saveRegister(@Valid UserTo userTo, BindingResult result, SessionStatus status, ModelMap model) {
+        if (super.service.getByEmail(userTo.getEmail()) != null) {
+            result.rejectValue("email", "user.duplicate","User with this email already exists");
+        }
         if (result.hasErrors()) {
             model.addAttribute("register", true);
             return "profile";
